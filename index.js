@@ -1,4 +1,4 @@
-const TelegramBot = require('node-telegram-bot-api');
+const {Telegraf} = require('telegraf');
 const axios = require('axios');
 const express = require('express');
 const app = express();
@@ -14,22 +14,14 @@ app.listen(port, () => {
 
 const token = ''+`${process.env.TEL_BOT_TOKEN}`;
 
-const bot = new TelegramBot(token, {polling: true});
+const bot = new Telegraf(token);
 
-// bot.onText(/\/start/, (msg) => {
-//   const chatId = msg.chat.id;
-//   bot.sendMessage(chatId, 'Welcome! Enter a City to explore 🏭');
-// });
+bot.start((msg) => {
+  msg.reply('Welcome! Enter a City to explore 🏭');
+});
 
 bot.on('message', async (msg) => {
-  const chatId = msg.chat.id;
-  const userInput = msg.text;
-
   try {
-    // if(userInput == "/start"){
-    //   bot.sendMessage(chatId, 'Welcome! Enter a City to explore 🏭');
-    // }
-    // else{
       const response = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?q=${userInput}&appid=${process.env.WEATHER_API}`
       );
@@ -42,10 +34,9 @@ bot.on('message', async (msg) => {
       const windSpeed = data.wind.speed;
       const message = `The weather in ${city} is ${weather} with a temperature of ${temperature.toFixed(2)}°C. The humidity is ${humidity}%, the pressure is ${pressure}hPa, and the wind speed is ${windSpeed}m/s.`;
   
-      bot.sendMessage(chatId, message);
-    // }
+      bot.reply(message);
     
   } catch (error) {
-    bot.sendMessage(chatId, "City doesn't exist.");
+    bot.reply("City doesn't exist.");
   }
 });

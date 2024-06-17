@@ -12,7 +12,7 @@ app.listen(port, () => {
   console.log(`server at http://localhost: ${port}`);
 })
 
-const token = 'process.env.TEL_BOT_TOKEN';
+const token = ''+`${process.env.TEL_BOT_TOKEN}`;
 
 const bot = new TelegramBot(token, {polling: true});
 
@@ -23,7 +23,7 @@ bot.on('message', async (msg) => {
 
   try {
     const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${userInput}&appid=process.env.WEATHER_API`
+      `https://api.openweathermap.org/data/2.5/weather?q=${userInput}&appid=${process.env.WEATHER_API}`
     );
     const data = response.data;
     const weather = data.weather[0].description;

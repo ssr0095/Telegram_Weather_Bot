@@ -46,3 +46,6 @@ bot.on('message', async (msg) => {
     bot.reply("City doesn't exist.");
   }
 });
+
+bot.launch({ webhook: { domain: https://weather-bot-r71y.onrender.com, port: port } })
+	.then(() => console.log("Webhook bot listening on port", port));

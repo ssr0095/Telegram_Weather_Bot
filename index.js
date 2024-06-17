@@ -16,6 +16,15 @@ const token = 'process.env.TEL_BOT_TOKEN';
 
 const bot = new TelegramBot(token, {polling: true});
 
+// Handle the /start command
+bot.onText(/\/start/, async (msg) => {
+  const chatId = msg.chat.id;
+
+  const response = await axios.get(
+    `https://weather-bot-r71y.onrender.com`
+  );
+  bot.sendMessage(chatId, 'Welcome! Enter a City to explore 🏭');
+});
 
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id;

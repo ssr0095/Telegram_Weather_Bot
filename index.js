@@ -2,17 +2,17 @@ const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-  res.redirect('https://t.me/weatherBoy101Bot');
-})
+// app.get('/', (req, res) => {
+//   res.redirect('https://t.me/weatherBoy101Bot');
+// })
 
 app.listen(port, () => {
-  console.log(`server at http://localhost:${port}`);
+  console.log(`server at http://localhost: ${port}`);
 })
 
-const token = '?';
+const token = 'process.env.TEL_BOT_TOKEN';
 
 const bot = new TelegramBot(token, {polling: true});
 
@@ -23,7 +23,7 @@ bot.on('message', async (msg) => {
 
   try {
     const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${userInput}&appid=?`
+      `https://api.openweathermap.org/data/2.5/weather?q=${userInput}&appid=process.env.WEATHER_API`
     );
     const data = response.data;
     const weather = data.weather[0].description;

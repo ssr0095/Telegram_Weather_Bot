@@ -12,12 +12,18 @@ app.listen(port, () => {
   console.log(`server at http://localhost: ${port}`);
 })
 
-const token = ''+`${process.env.TEL_BOT_TOKEN}`;
+const token = '`${process.env.TEL_BOT_TOKEN}`';
 
 const bot = new Telegraf(token);
 
 bot.start((msg) => {
   msg.reply('Welcome! Enter a City to explore 🏭');
+});
+
+bot.hears("moon", (msg) => {
+  msg.reply('isn\'t the moon beautiful..');
+  console.log(msg)
+
 });
 
 bot.on('message', async (msg) => {

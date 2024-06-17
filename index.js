@@ -47,5 +47,5 @@ bot.on('message', async (msg) => {
   }
 });
 
-bot.launch({ webhook: { domain: https://weather-bot-r71y.onrender.com, port: port } })
+bot.launch({ webhook: { domain: 'https://weather-bot-r71y.onrender.com', port: port } })
 	.then(() => console.log("Webhook bot listening on port", port));

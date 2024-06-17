@@ -1,39 +1,21 @@
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
-const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// app.get('/', (req, res) => {
-//   res.redirect('https://t.me/weatherBoy101Bot');
-// })
+app.get('/', (req, res) => {
+  res.redirect('https://t.me/weatherBoy101Bot');
+})
 
-app.listen(port, async () => {
-  console.log(`Express server is listening on ${port}`);
-
-  // Set the webhook
-  const url = `https://weather-bot-r71y.onrender.com/bot${token}`; // Replace with your actual server URL
-  await bot.setWebHook(url);
-});
+app.listen(port, () => {
+  console.log(`server at http://localhost: ${port}`);
+})
 
 const token = 'process.env.TEL_BOT_TOKEN';
 
 const bot = new TelegramBot(token, {polling: true});
 
-app.use(bodyParser.json());
-
-// This route will be set as the webhook for your bot
-app.post(`/bot${token}`, (req, res) => {
-  bot.processUpdate(req.body);
-  res.sendStatus(200);
-});
-
-// Handle the /start command
-bot.onText(/\/start/, async (msg) => {
-  const chatId = msg.chat.id;
-  bot.sendMessage(chatId, 'Welcome! Enter a City to explore 🏭');
-});
 
 bot.on('message', async (msg) => {
   const chatId = msg.chat.id;

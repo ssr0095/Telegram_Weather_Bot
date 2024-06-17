@@ -26,10 +26,10 @@ bot.on('message', async (msg) => {
   const userInput = msg.text;
 
   try {
-    if(userInput == "/start"){
-      bot.sendMessage(chatId, 'Welcome! Enter a City to explore 🏭');
-    }
-    else{
+    // if(userInput == "/start"){
+    //   bot.sendMessage(chatId, 'Welcome! Enter a City to explore 🏭');
+    // }
+    // else{
       const response = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?q=${userInput}&appid=${process.env.WEATHER_API}`
       );
@@ -43,7 +43,7 @@ bot.on('message', async (msg) => {
       const message = `The weather in ${city} is ${weather} with a temperature of ${temperature.toFixed(2)}°C. The humidity is ${humidity}%, the pressure is ${pressure}hPa, and the wind speed is ${windSpeed}m/s.`;
   
       bot.sendMessage(chatId, message);
-    }
+    // }
     
   } catch (error) {
     bot.sendMessage(chatId, "City doesn't exist.");

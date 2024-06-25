@@ -40,7 +40,6 @@ app.listen(port, () => {
 // Bot commands and handlers
 bot.start((ctx) => {
   ctx.reply('Welcome! Enter a City to explore 🏭');
-  console.log(ctx.message);
 });
 
 bot.on('message', async (ctx) => {
@@ -62,7 +61,7 @@ bot.on('message', async (ctx) => {
     ctx.reply(message);
   } catch (error) {
     ctx.reply("City doesn't exist.");
-    console.error('Error fetching weather data:', error);
+    // console.error('Error fetching weather data:', error);
   }
 });
 

@@ -1,26 +1,30 @@
 const { Telegraf } = require('telegraf');
-const axios = require('axios');
 const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
+const axios = require('axios');
 
-// Set up environment variables (for safety, don't hardcode your tokens)
-const token = process.env.TELEGRAM_BOT_TOKEN;
-const domain = process.env.domain;
-const port = process.env.PORT || 4000;
+const app = express();
+const port = process.env.PORT || 3000;
+const token = process.env.TELEGRAM_BOT_KEY;
+const domain = process.env.domain;  // Your online hosted domain
 
 const bot = new Telegraf(token);
 
 // Middleware to parse the body
-app.use(bodyParser.json());
+app.use(bot.webhookCallback(`/bot${token}`));
 
-// Set webhook for the bot
-bot.telegram.setWebhook(`${domain}/bot${token}`);
+// Set the webhook
+bot.telegram.setWebhook(`${domain}/bot${token}`).catch((error) => {
+  console.error('Error setting webhook:', error);
+});
 
 // Webhook handler
 app.post(`/bot${token}`, (req, res) => {
-  bot.handleUpdate(req.body);
-  res.sendStatus(200);
+  bot.handleUpdate(req.body)
+    .then(() => res.sendStatus(200))
+    .catch((error) => {
+      console.error('Error handling update:', error);
+      res.sendStatus(500);
+    });
 });
 
 // Define the root endpoint for health checks
@@ -30,7 +34,7 @@ app.get('/', (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server running at ${domain}:${port}`);
 });
 
 // Bot commands and handlers
@@ -39,17 +43,12 @@ bot.start((ctx) => {
   console.log(ctx.message);
 });
 
-bot.hears('hii', (ctx) => {
-  ctx.reply('Welcome! Enter a City to explore 🏭');
-  console.log(ctx.message.text);
-});
-
 bot.on('message', async (ctx) => {
   const userInput = ctx.message.text;
 
   try {
     const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${userInput}&appid=${process.env.WEATHER_API}`
+      `https://api.openweathermap.org/data/2.5/weather?q=${userInput}&appid=${process.env.WEATHER_API_KEY}`
     );
     const data = response.data;
     const weather = data.weather[0].description;
@@ -63,12 +62,8 @@ bot.on('message', async (ctx) => {
     ctx.reply(message);
   } catch (error) {
     ctx.reply("City doesn't exist.");
+    console.error('Error fetching weather data:', error);
   }
 });
 
-bot.launch({
-  webhook: {
-    domain: domain,
-    port: port
-  }
-});
+bot.launch();

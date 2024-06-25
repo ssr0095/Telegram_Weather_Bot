@@ -10,22 +10,22 @@ const domain = process.env.domain;  // Your online hosted domain
 const bot = new Telegraf(token);
 
 // Middleware to parse the body
-app.use(bot.webhookCallback(`/bot${token}`));
+// app.use(bot.webhookCallback(`/bot${token}`));
 
-// Set the webhook
-bot.telegram.setWebhook(`${domain}/bot${token}`).catch((error) => {
-  console.error('Error setting webhook:', error);
-});
+// // Set the webhook
+// bot.telegram.setWebhook(`${domain}/bot${token}`).catch((error) => {
+//   console.error('Error setting webhook:', error);
+// });
 
-// Webhook handler
-app.post(`/bot${token}`, (req, res) => {
-  bot.handleUpdate(req.body)
-    .then(() => res.sendStatus(200))
-    .catch((error) => {
-      console.error('Error handling update:', error);
-      res.sendStatus(500);
-    });
-});
+// // Webhook handler
+// app.post(`/bot${token}`, (req, res) => {
+//   bot.handleUpdate(req.body)
+//     .then(() => res.sendStatus(200))
+//     .catch((error) => {
+//       console.error('Error handling update:', error);
+//       res.sendStatus(500);
+//     });
+// });
 
 // Define the root endpoint for health checks
 app.get('/', (req, res) => {

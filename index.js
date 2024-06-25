@@ -9,27 +9,9 @@ const domain = process.env.domain;  // Your online hosted domain
 
 const bot = new Telegraf(token);
 
-// Middleware to parse the body
-// app.use(bot.webhookCallback(`/bot${token}`));
-
-// // Set the webhook
-// bot.telegram.setWebhook(`${domain}/bot${token}`).catch((error) => {
-//   console.error('Error setting webhook:', error);
-// });
-
-// // Webhook handler
-// app.post(`/bot${token}`, (req, res) => {
-//   bot.handleUpdate(req.body)
-//     .then(() => res.sendStatus(200))
-//     .catch((error) => {
-//       console.error('Error handling update:', error);
-//       res.sendStatus(500);
-//     });
-// });
-
 // Define the root endpoint for health checks
 app.get('/', (req, res) => {
-  res.status(200).send('Bot is running.');
+  // res.status(200).send('Bot is running.');
   res.redirect('https://t.me/weatherBoy101Bot');
 });
 

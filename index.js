@@ -30,6 +30,7 @@ app.post(`/bot${token}`, (req, res) => {
 // Define the root endpoint for health checks
 app.get('/', (req, res) => {
   res.status(200).send('Bot is running.');
+  res.redirect('https://t.me/weatherBoy101Bot');
 });
 
 // Start the server

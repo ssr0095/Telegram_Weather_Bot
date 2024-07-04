@@ -12,12 +12,22 @@ app.listen(port, () => {
   console.log(`server at http://localhost: ${port}`);
 })
 
-const token = ''+`${process.env.TEL_BOT_TOKEN}`;
+const bot = new Telegraf(process.env.TEL_BOT_TOKEN);
 
-const bot = new Telegraf(token);
+const websiteUrl = 'https://weather-bot-r71y.onrender.com';
 
-bot.start((msg) => {
-  msg.reply('Welcome! Enter a City to explore 🏭');
+bot.start(async (msg) => {
+  try {
+    const response = await axios.get(websiteUrl);
+    if (response.status === 200) {
+      msg.reply('Welcome! Enter a City to explore 🏭');
+    } else {
+      msg.reply('Failed! Try again later.');
+    }
+  } catch (error) {
+    msg.reply('Error while trying to wake up the website.');
+    console.error(error);
+  }
 });
 
 bot.on('message', async (msg) => {

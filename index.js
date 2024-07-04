@@ -13,9 +13,9 @@ app.listen(port, () => {
   console.log(`server at http://localhost: ${port}`);
 })
 
-const bot = new Telegraf(process.env.TEL_BOT_TOKEN);
+const bot = new Telegraf(process.env.TELEGRAM_BOT_KEY);
 
-const websiteUrl = 'https://weather-bot-r71y.onrender.com';
+const websiteUrl = process.env.DOMAIN;
 
 bot.start(async (msg) => {
   try {

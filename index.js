@@ -15,27 +15,6 @@ app.listen(port, () => {
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_KEY);
 
-const websiteUrl = process.env.DOMAIN;
-
-bot.start(async (msg) => {
-  try {
-    const response = await axios.get(websiteUrl);
-    if (response.status === 200) {
-      msg.reply('Welcome! Enter a City to explore 🏭');
-    } else {
-      msg.reply('Failed! Try again later.');
-    }
-  } catch (error) {
-    msg.reply('Error while trying to wake up the website.');
-    console.error(error);
-  }
-});
-
-// Start the server
-app.listen(port, () => {
-  console.log(`Server running at ${domain}:${port}`);
-});
-
 // Bot commands and handlers
 bot.start((ctx) => {
   ctx.reply('Welcome! Enter a City to explore 🏭');
